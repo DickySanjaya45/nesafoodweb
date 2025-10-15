@@ -1,16 +1,39 @@
-# nesafood
+# 🍔 Nesa FOOD
 
-A new Flutter project.
+**Nesa FOOD** adalah website pemesanan makanan berbasis web yang dirancang untuk membantu mahasiswa dan staf fakultas melakukan pemesanan makanan di kantin kampus secara cepat, efisien, dan tanpa antre.
 
-## Getting Started
+---
 
-This project is a starting point for a Flutter application.
+## 🎯 Tujuan Proyek
+Meningkatkan kenyamanan dan efisiensi layanan kantin fakultas melalui sistem digital yang memudahkan pengguna:
+- Melihat menu makanan dan minuman setiap hari
+- Melakukan pemesanan secara online
+- Mengatur waktu pengambilan pesanan
+- Mengurangi antrean dan waktu tunggu di kantin
 
-A few resources to get you started if this is your first Flutter project:
+---
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## ⚙️ Fitur Utama
+- 🧾 **Lihat Menu** — Daftar makanan dan minuman yang tersedia di kantin  
+- 🛒 **Pemesanan Online** — Pengguna dapat memilih dan memesan makanan langsung dari website  
+- 🧍‍♂️ **Autentikasi Pengguna** — Login dan registrasi untuk mahasiswa/staf  
+- 📦 **Kelola Pesanan** — Kantin dapat melihat dan memproses pesanan secara real time  
+- 🧰 **CRUD Menu** — Admin dapat menambah, mengedit, atau menghapus menu makanan  
+- 📱 **Desain Responsif** — Tampilan modern dan bisa diakses dari smartphone
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+---
+
+## 🖥️ Teknologi yang Digunakan
+| Kategori | Teknologi |
+|-----------|------------|
+| Frontend  | HTML, CSS, JavaScript |
+| Backend   | (Opsional jika ada, contoh: PHP / Node.js) |
+| Database  | Tidak menggunakan database (versi lokal) |
+| Tools     | VS Code, Git, GitHub |
+
+---
+
+## 🚀 Cara Menjalankan Proyek
+1. Clone repository ini:
+   ```bash
+   git clone https://github.com/USERNAME/nesafood.git
