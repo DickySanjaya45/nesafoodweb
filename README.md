@@ -36,4 +36,4 @@ Meningkatkan kenyamanan dan efisiensi layanan kantin fakultas melalui sistem dig
 ## 🚀 Cara Menjalankan Proyek
 1. Clone repository ini:
    ```bash
-   git clone https://github.com/USERNAME/nesafood.git
+   git clone https://github.com/DickySanjaya45/nesafoodweb.git
