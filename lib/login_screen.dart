@@ -23,7 +23,7 @@ class _LoginScreenState extends State<LoginScreen> {
         body: Stack(
           fit: StackFit.expand,
           children: [
-            Image.asset('assets/IMG_5152.jpg', fit: BoxFit.cover),
+            Image.asset('assets/image.png', fit: BoxFit.cover),
             Center(
               child: Container(
                 width: 400,
@@ -32,7 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   horizontal: 32,
                 ),
                 decoration: BoxDecoration(
-                  color: Colors.black.withOpacity(0.35),
+                  color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.60),
                   borderRadius: BorderRadius.circular(24),
                   boxShadow: [
                     BoxShadow(

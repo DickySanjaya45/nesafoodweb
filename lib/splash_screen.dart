@@ -41,62 +41,66 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: Stack(
-          children: [
-            // Konten tengah: logo + roundel loading
-            Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  // Logo
-                  SizedBox(
-                    width: 220,
-                    height: 120,
-                    child: Image.asset(
-                      'assets/logo.png',
-                      fit: BoxFit.contain,
-                      errorBuilder: (_, __, ___) =>
-                          const Icon(Icons.fastfood, size: 72),
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-                  // Roundel loading (transparan)
-                  Container(
-                    width: 64,
-                    height: 64,
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(
-                        0.06,
-                      ), // transparan ringan
-                      shape: BoxShape.circle,
-                    ),
-                    child: const Center(
-                      child: SizedBox(
-                        width: 36,
-                        height: 36,
-                        child: CircularProgressIndicator(strokeWidth: 3),
+        // tambahkan padding agar konten splash tidak menempel ke tepi
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+          child: Stack(
+            children: [
+              // Konten tengah: logo + roundel loading
+              Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    // Logo
+                    SizedBox(
+                      width: 220,
+                      height: 120,
+                      child: Image.asset(
+                        'assets/logo.png',
+                        fit: BoxFit.contain,
+                        errorBuilder: (_, __, ___) =>
+                            const Icon(Icons.fastfood, size: 72),
                       ),
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 24),
+                    // Roundel loading (transparan)
+                    Container(
+                      width: 64,
+                      height: 64,
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(
+                          0.06,
+                        ), // transparan ringan
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Center(
+                        child: SizedBox(
+                          width: 36,
+                          height: 36,
+                          child: CircularProgressIndicator(strokeWidth: 3),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
 
-            // Nama pembuat di bagian bawah
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 24.0),
-                child: Text(
-                  'Dicky Sanjaya',
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: Colors.black54,
-                    fontWeight: FontWeight.w600,
+              // Nama pembuat di bagian bawah
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 24.0),
+                  child: Text(
+                    'Dicky Sanjaya',
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      color: Colors.black54,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

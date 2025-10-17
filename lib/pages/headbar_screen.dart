@@ -17,7 +17,18 @@ class HeadBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: const Color.fromARGB(255, 255, 255, 255),
+      // Tambahkan shadow di bawah headbar
+      decoration: BoxDecoration(
+        color: const Color.fromARGB(255, 255, 255, 255),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black12,
+            blurRadius: 10,
+            spreadRadius: 0,
+            offset: Offset(0, 4),
+          ),
+        ],
+      ),
       child: SafeArea(
         child: Container(
           height: 88,
