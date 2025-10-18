@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class HeadBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -16,76 +17,82 @@ class HeadBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    const terracotta = Color(0xFFD35400);
     return Container(
-      // Tambahkan shadow di bawah headbar
       decoration: BoxDecoration(
-        color: const Color.fromARGB(255, 255, 255, 255),
-        boxShadow: [
+        color: Colors.white,
+        boxShadow: const [
           BoxShadow(
             color: Colors.black12,
-            blurRadius: 10,
-            spreadRadius: 0,
-            offset: Offset(0, 4),
+            blurRadius: 12,
+            offset: Offset(0, 6),
           ),
         ],
       ),
       child: SafeArea(
         child: Container(
           height: 88,
-          padding: const EdgeInsets.symmetric(horizontal: 32),
+          padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Row(
             children: [
-              // Logo di kiri
               SizedBox(
                 height: 56,
-                child: Image.asset('assets/logo.png', fit: BoxFit.contain),
+                child: Image.asset(
+                  'assets/logo.png',
+                  fit: BoxFit.contain,
+                  errorBuilder: (_, __, ___) => const SizedBox(),
+                ),
               ),
-              const SizedBox(width: 40),
-              Expanded(child: SizedBox()),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  _MenuButton(
-                    label: 'Menu',
-                    selected: selectedIndex == 1,
-                    onTap: () => onMenuTap(1),
-                  ),
-                  const SizedBox(width: 16),
-                  _MenuButton(
-                    label: 'About us',
-                    selected: selectedIndex == 2,
-                    onTap: () => onMenuTap(2),
-                  ),
-                ],
+              const SizedBox(width: 24),
+              Text(
+                title,
+                style: GoogleFonts.poppins(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black87,
+                ),
               ),
-              Expanded(child: SizedBox()),
+              const Spacer(),
+              _MenuButton(
+                label: 'Home',
+                selected: selectedIndex == 0,
+                onTap: () => onMenuTap(0),
+              ),
+              const SizedBox(width: 8),
+              _MenuButton(
+                label: 'Menu',
+                selected: selectedIndex == 1,
+                onTap: () => onMenuTap(1),
+              ),
+              const SizedBox(width: 8),
+              _MenuButton(
+                label: 'About',
+                selected: selectedIndex == 2,
+                onTap: () => onMenuTap(2),
+              ),
+              const SizedBox(width: 18),
               SizedBox(
-                width: 160,
+                width: 220,
                 child: TextField(
                   decoration: InputDecoration(
-                    hintText: 'search',
-                    prefixIcon: Icon(Icons.search, size: 18),
-                    contentPadding: EdgeInsets.symmetric(
-                      vertical: 0,
-                      horizontal: 16,
-                    ),
+                    hintText: 'Search menu or kantin',
+                    prefixIcon: const Icon(Icons.search, size: 20),
                     filled: true,
-                    fillColor: Colors.grey[300],
+                    fillColor: Colors.grey[100],
+                    contentPadding: const EdgeInsets.symmetric(vertical: 12),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                       borderSide: BorderSide.none,
                     ),
                   ),
-                  style: TextStyle(fontSize: 14),
                 ),
               ),
-              const SizedBox(width: 24),
-              // Profile icon yang bisa di-tap
+              const SizedBox(width: 16),
               GestureDetector(
                 onTap: onProfileTap,
                 child: const CircleAvatar(
-                  backgroundColor: Colors.transparent,
-                  child: Icon(Icons.person, color: Colors.black, size: 28),
+                  backgroundColor: Colors.black12,
+                  child: Icon(Icons.person, color: Colors.black87),
                 ),
               ),
             ],
@@ -99,7 +106,6 @@ class HeadBar extends StatelessWidget implements PreferredSizeWidget {
   Size get preferredSize => const Size.fromHeight(88.0);
 }
 
-// Widget tombol menu
 class _MenuButton extends StatelessWidget {
   final String label;
   final bool selected;
@@ -113,21 +119,20 @@ class _MenuButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: selected ? Color(0xFFD35400) : Colors.transparent,
+    return InkWell(
+      onTap: onTap,
       borderRadius: BorderRadius.circular(8),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(8),
-        onTap: onTap,
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          child: Text(
-            label,
-            style: TextStyle(
-              color: selected ? Colors.white : Colors.black,
-              fontWeight: selected ? FontWeight.bold : FontWeight.normal,
-              fontSize: 16,
-            ),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        decoration: BoxDecoration(
+          color: selected ? const Color(0xFFD35400) : Colors.transparent,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Text(
+          label,
+          style: GoogleFonts.poppins(
+            color: selected ? Colors.white : Colors.black87,
+            fontWeight: selected ? FontWeight.w600 : FontWeight.w500,
           ),
         ),
       ),
