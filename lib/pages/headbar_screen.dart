@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+// ganti import badges menjadi alias untuk menghindari konflik dengan material.Badge
+import 'package:badges/badges.dart' as badges;
 
-class HeadBar extends StatelessWidget implements PreferredSizeWidget {
+class HeadBar extends StatefulWidget implements PreferredSizeWidget {
   final String title;
   final int selectedIndex;
-  final Function(int) onMenuTap;
+  final ValueChanged<int> onMenuTap;
   final VoidCallback? onProfileTap;
+  final ValueChanged<String>? onSearch;
+  final int cartCount;
+  final VoidCallback? onCartTap;
+  final String searchQuery;
 
   const HeadBar({
     super.key,
@@ -13,7 +19,45 @@ class HeadBar extends StatelessWidget implements PreferredSizeWidget {
     required this.selectedIndex,
     required this.onMenuTap,
     this.onProfileTap,
+    this.onSearch,
+    this.cartCount = 0,
+    this.onCartTap,
+    this.searchQuery = '',
   });
+
+  @override
+  State<HeadBar> createState() => _HeadBarState();
+
+  @override
+  Size get preferredSize => const Size.fromHeight(88.0);
+}
+
+class _HeadBarState extends State<HeadBar> {
+  late final TextEditingController _ctrl;
+
+  @override
+  void initState() {
+    super.initState();
+    _ctrl = TextEditingController(text: widget.searchQuery);
+  }
+
+  @override
+  void didUpdateWidget(covariant HeadBar oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.searchQuery != widget.searchQuery &&
+        _ctrl.text != widget.searchQuery) {
+      _ctrl.text = widget.searchQuery;
+      _ctrl.selection = TextSelection.fromPosition(
+        TextPosition(offset: _ctrl.text.length),
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    _ctrl.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,37 +87,37 @@ class HeadBar extends StatelessWidget implements PreferredSizeWidget {
                   errorBuilder: (_, __, ___) => const SizedBox(),
                 ),
               ),
-              const SizedBox(width: 24),
-              Text(
-                title,
-                style: GoogleFonts.poppins(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black87,
-                ),
-              ),
+              const SizedBox(width: 12),
               const Spacer(),
               _MenuButton(
                 label: 'Home',
-                selected: selectedIndex == 0,
-                onTap: () => onMenuTap(0),
+                selected: widget.selectedIndex == 0,
+                onTap: () => widget.onMenuTap(0),
               ),
               const SizedBox(width: 8),
               _MenuButton(
                 label: 'Menu',
-                selected: selectedIndex == 1,
-                onTap: () => onMenuTap(1),
+                selected: widget.selectedIndex == 1,
+                onTap: () => widget.onMenuTap(1),
               ),
               const SizedBox(width: 8),
               _MenuButton(
                 label: 'About',
-                selected: selectedIndex == 2,
-                onTap: () => onMenuTap(2),
+                selected: widget.selectedIndex == 2,
+                onTap: () => widget.onMenuTap(2),
               ),
               const SizedBox(width: 18),
               SizedBox(
-                width: 220,
+                width: 320,
                 child: TextField(
+                  controller: _ctrl,
+                  onChanged: (v) {
+                    if (widget.onSearch != null) widget.onSearch!(v);
+                    setState(() {}); // update clear icon
+                  },
+                  onSubmitted: (v) {
+                    if (widget.onSearch != null) widget.onSearch!(v);
+                  },
                   decoration: InputDecoration(
                     hintText: 'Search menu or kantin',
                     prefixIcon: const Icon(Icons.search, size: 20),
@@ -84,12 +128,35 @@ class HeadBar extends StatelessWidget implements PreferredSizeWidget {
                       borderRadius: BorderRadius.circular(12),
                       borderSide: BorderSide.none,
                     ),
+                    suffixIcon: _ctrl.text.isEmpty
+                        ? null
+                        : IconButton(
+                            icon: const Icon(Icons.close, size: 20),
+                            onPressed: () {
+                              _ctrl.clear();
+                              if (widget.onSearch != null) widget.onSearch!('');
+                              setState(() {});
+                            },
+                          ),
                   ),
                 ),
               ),
               const SizedBox(width: 16),
+              // Cart icon with badge (pakai alias badges.Badge)
+              badges.Badge(
+                showBadge: widget.cartCount > 0,
+                badgeContent: Text(
+                  '${widget.cartCount}',
+                  style: const TextStyle(color: Colors.white, fontSize: 11),
+                ),
+                child: IconButton(
+                  onPressed: widget.onCartTap,
+                  icon: const Icon(Icons.shopping_cart, color: Colors.black87),
+                ),
+              ),
+              const SizedBox(width: 8),
               GestureDetector(
-                onTap: onProfileTap,
+                onTap: widget.onProfileTap,
                 child: const CircleAvatar(
                   backgroundColor: Colors.black12,
                   child: Icon(Icons.person, color: Colors.black87),
@@ -101,9 +168,6 @@ class HeadBar extends StatelessWidget implements PreferredSizeWidget {
       ),
     );
   }
-
-  @override
-  Size get preferredSize => const Size.fromHeight(88.0);
 }
 
 class _MenuButton extends StatelessWidget {

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'cubit/login_cubit.dart';
 import 'pages/home_screen.dart';
+import 'signin_screen.dart'; // <-- added import for SignUp / Signin screen
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -45,10 +46,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: BlocConsumer<LoginCubit, LoginState>(
                   listener: (context, state) {
                     if (state.isSuccess) {
+                      final user = usernameController.text.trim();
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const HomeScreen(),
+                          builder: (context) => HomeScreen(
+                            username: user.isEmpty ? 'Guest' : user,
+                          ),
                         ),
                       );
                     }
@@ -182,7 +186,15 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             ),
                             TextButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                // navigate to SignUp screen (matches login design)
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => const SignUpScreen(),
+                                  ),
+                                );
+                              },
                               child: const Text(
                                 'Sign Up',
                                 style: TextStyle(color: Colors.white70),
