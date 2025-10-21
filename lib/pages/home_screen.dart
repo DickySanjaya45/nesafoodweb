@@ -173,7 +173,7 @@ class _HomeScreenState extends State<HomeScreen> {
         : <Menu>[];
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(vertical: 28, horizontal: 20),
+      padding: const EdgeInsets.symmetric(vertical: 28, horizontal: 12),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -414,12 +414,14 @@ class _HomeScreenState extends State<HomeScreen> {
             physics: const NeverScrollableScrollPhysics(),
             itemCount: featuredMenus.length,
             gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 260,
+              maxCrossAxisExtent: 300,
               crossAxisSpacing: 12,
               mainAxisSpacing: 12,
               childAspectRatio: 0.78,
             ),
-            itemBuilder: (context, i) => _menuCard(featuredMenus[i]),
+            // disable direct add on landing: allowAdd = false
+            itemBuilder: (context, i) =>
+                _menuCard(featuredMenus[i], allowAdd: false),
           ),
 
           const SizedBox(height: 36),
@@ -724,21 +726,9 @@ class _HomeScreenState extends State<HomeScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(height: 18),
-        Row(
-          children: [
-            IconButton(
-              onPressed: () => setState(() => selectedIndex = 0),
-              icon: const Icon(Icons.chevron_left),
-            ),
-            const SizedBox(width: 8),
-            Text(
-              'Pilih Kantin',
-              style: GoogleFonts.poppins(
-                fontSize: 20,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ],
+        _sectionHeaderWithBack(
+          title: 'Pilih Kantin',
+          onBack: () => setState(() => selectedIndex = 0),
         ),
         const SizedBox(height: 12),
         ExpandedGridKantin(),
@@ -755,21 +745,10 @@ class _HomeScreenState extends State<HomeScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(height: 18),
-        Row(
-          children: [
-            IconButton(
-              onPressed: () => setState(() => activeKantin = null),
-              icon: const Icon(Icons.chevron_left),
-            ),
-            const SizedBox(width: 8),
-            Text(
-              k.name,
-              style: GoogleFonts.poppins(
-                fontSize: 20,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-          ],
+        _sectionHeaderWithBack(
+          title: k.name,
+          subtitle: null,
+          onBack: () => setState(() => activeKantin = null),
         ),
         const SizedBox(height: 12),
         Expanded(
@@ -1165,26 +1144,269 @@ class _HomeScreenState extends State<HomeScreen> {
   // ABOUT
   // -----------------------
   Widget _buildAbout() {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 48.0, horizontal: 18),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              'Tentang Nesa Food',
-              style: GoogleFonts.poppins(
-                fontSize: 26,
-                fontWeight: FontWeight.w800,
-              ),
-            ),
-            const SizedBox(height: 12),
-            Text(
-              'Nesa Food adalah platform pemesanan kantin fakultas yang memudahkan mahasiswa untuk memesan makanan secara cepat dan efisien.',
-              textAlign: TextAlign.center,
-              style: GoogleFonts.poppins(fontSize: 14, color: Colors.black54),
-            ),
-          ],
+    return SingleChildScrollView(
+      padding: const EdgeInsets.symmetric(vertical: 36, horizontal: 12),
+      child: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 1100),
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              final isWide = constraints.maxWidth > 800;
+              final left = Expanded(
+                flex: 7,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Tentang Nesa Food',
+                      style: GoogleFonts.poppins(
+                        fontSize: 32,
+                        fontWeight: FontWeight.w800,
+                        color: Colors.black87,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    Text(
+                      'Nesa Food adalah platform pemesanan makanan untuk kantin Baseball UNESA5. '
+                      'Kami memudahkan pemesanan dari berbagai kantin kampus sehingga mahasiswa dapat '
+                      'mendapatkan makanan cepat, aman, dan praktis tanpa mengantri panjang.',
+                      style: GoogleFonts.poppins(
+                        fontSize: 16,
+                        color: Colors.black87,
+                        height: 1.5,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    Container(
+                      padding: const EdgeInsets.all(18),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Colors.black12,
+                            blurRadius: 10,
+                            offset: Offset(0, 8),
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Dibuat oleh',
+                            style: GoogleFonts.poppins(
+                              fontSize: 13,
+                              color: Colors.black54,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Row(
+                            children: [
+                              CircleAvatar(
+                                radius: 26,
+                                backgroundColor: NesaColors.terracottaLight,
+                                child: Text(
+                                  'D',
+                                  style: GoogleFonts.poppins(
+                                    fontWeight: FontWeight.w700,
+                                    color: NesaColors.terracotta,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Dicky',
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w800,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      'Jl. Maospati - Bar. No.358-360, Kleco, Maospati, Kabupaten Magetan, Jawa Timur 63392',
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 13,
+                                        color: Colors.black54,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 14),
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.phone,
+                                size: 18,
+                                color: NesaColors.terracotta,
+                              ),
+                              const SizedBox(width: 8),
+                              Text(
+                                '+62 895 3673 48576',
+                                style: GoogleFonts.poppins(fontSize: 13),
+                              ),
+                              const SizedBox(width: 18),
+                              Icon(
+                                Icons.email,
+                                size: 18,
+                                color: NesaColors.terracotta,
+                              ),
+                              const SizedBox(width: 8),
+                              Text(
+                                'dickysanjayaputra2101@gmail.com',
+                                style: GoogleFonts.poppins(fontSize: 13),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 12),
+                          Row(
+                            children: [
+                              // social placeholders (replace with links if needed)
+                              InkWell(
+                                onTap: () {},
+                                borderRadius: BorderRadius.circular(8),
+                                child: Container(
+                                  padding: const EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    color: NesaColors.terracottaLight,
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.public,
+                                        size: 16,
+                                        color: NesaColors.terracotta,
+                                      ),
+                                      const SizedBox(width: 8),
+                                      Text(
+                                        'Website',
+                                        style: GoogleFonts.poppins(
+                                          fontSize: 13,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 10),
+                              InkWell(
+                                onTap: () {},
+                                borderRadius: BorderRadius.circular(8),
+                                child: Container(
+                                  padding: const EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    color: Colors.blue.shade50,
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.facebook,
+                                        size: 16,
+                                        color: Colors.blue,
+                                      ),
+                                      const SizedBox(width: 8),
+                                      Text(
+                                        'Facebook',
+                                        style: GoogleFonts.poppins(
+                                          fontSize: 13,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 10),
+                              InkWell(
+                                onTap: () {},
+                                borderRadius: BorderRadius.circular(8),
+                                child: Container(
+                                  padding: const EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    color: Colors.pink.shade50,
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.camera_alt,
+                                        size: 16,
+                                        color: Colors.pink,
+                                      ),
+                                      const SizedBox(width: 8),
+                                      Text(
+                                        'Instagram',
+                                        style: GoogleFonts.poppins(
+                                          fontSize: 13,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              );
+
+              final right = Expanded(
+                flex: 5,
+                child: Padding(
+                  padding: EdgeInsets.only(
+                    left: isWide ? 28 : 0,
+                    top: isWide ? 0 : 20,
+                  ),
+                  child: Container(
+                    height: 340,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(16),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black12,
+                          blurRadius: 16,
+                          offset: Offset(0, 12),
+                        ),
+                      ],
+                    ),
+                    child: Center(
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(12),
+                        child: SizedBox(
+                          height: 260,
+                          width: 260,
+                          child: Image.asset(
+                            'assets/logo.png',
+                            fit: BoxFit.contain,
+                            errorBuilder: (_, __, ___) => const SizedBox(),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              );
+
+              return isWide
+                  ? Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [left, right],
+                    )
+                  : Column(children: [left, right]);
+            },
+          ),
         ),
       ),
     );
@@ -1193,104 +1415,36 @@ class _HomeScreenState extends State<HomeScreen> {
   // -----------------------
   // Reusable UI widgets
   // -----------------------
-  Widget _menuCard(Menu m) {
+  Widget _menuCard(Menu m, {bool allowAdd = true}) {
     final count = itemCounts[m.name] ?? 0;
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 6),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(12),
         boxShadow: const [
           BoxShadow(
             color: Colors.black12,
-            blurRadius: 12,
-            offset: Offset(0, 10),
+            blurRadius: 10,
+            offset: Offset(0, 8),
           ),
         ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // image + price badge
           ClipRRect(
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(14)),
-            child: Stack(
-              children: [
-                SizedBox(
-                  height: 130,
-                  width: double.infinity,
-                  child: Image.asset(
-                    m.image,
-                    fit: BoxFit.cover,
-                    errorBuilder: (_, __, ___) =>
-                        Container(color: Colors.grey[200]),
-                  ),
-                ),
-                // dark gradient bottom for text contrast
-                Positioned.fill(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          Colors.black.withOpacity(0.18),
-                          Colors.transparent,
-                        ],
-                        begin: Alignment.bottomCenter,
-                        end: Alignment.topCenter,
-                      ),
-                    ),
-                  ),
-                ),
-                // price badge top-right
-                Positioned(
-                  right: 10,
-                  top: 10,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 6,
-                    ),
-                    decoration: BoxDecoration(
-                      color: terracotta,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Text(
-                      'Rp${m.price.toStringAsFixed(0)}',
-                      style: GoogleFonts.poppins(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 12,
-                      ),
-                    ),
-                  ),
-                ),
-                // category chip bottom-left
-                Positioned(
-                  left: 10,
-                  bottom: 10,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 6,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.9),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Text(
-                      m.getCategory(),
-                      style: GoogleFonts.poppins(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+            child: SizedBox(
+              height: 120,
+              child: Image.asset(
+                m.image,
+                fit: BoxFit.cover,
+                errorBuilder: (_, __, ___) =>
+                    Container(color: Colors.grey[200]),
+              ),
             ),
           ),
-
-          // content
           Padding(
             padding: const EdgeInsets.all(12),
             child: Column(
@@ -1303,48 +1457,75 @@ class _HomeScreenState extends State<HomeScreen> {
                   style: GoogleFonts.poppins(fontWeight: FontWeight.w700),
                 ),
                 const SizedBox(height: 8),
-                Text(
-                  m.description,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.poppins(
-                    fontSize: 12,
-                    color: Colors.black54,
-                  ),
+                Row(
+                  children: [
+                    Text(
+                      'Rp${m.price.toStringAsFixed(0)}',
+                      style: TextStyle(
+                        color: terracotta,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                    const Spacer(),
+                    Icon(Icons.eco, color: Colors.green.shade700, size: 16),
+                  ],
                 ),
               ],
             ),
           ),
-
           const Spacer(),
-
-          // actions row
           Padding(
-            padding: const EdgeInsets.fromLTRB(12, 6, 12, 12),
+            padding: const EdgeInsets.all(10),
             child: count == 0
-                ? Row(
-                    children: [
-                      Expanded(
-                        child: ElevatedButton.icon(
+                ? (allowAdd
+                      // normal add button (when in Menu section)
+                      ? ElevatedButton(
                           onPressed: () => _addMenuToCart(m),
-                          icon: const Icon(Icons.add_shopping_cart),
-                          label: Text(
-                            'Tambah',
-                            style: GoogleFonts.poppins(
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: terracotta,
-                            padding: const EdgeInsets.symmetric(vertical: 12),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
                           ),
-                        ),
-                      ),
-                    ],
-                  )
+                          child: Text(
+                            'Add to Dish',
+                            style: GoogleFonts.poppins(
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        )
+                      // on landing: show "Lihat di Menu" CTA that navigates user to Menu and selects parent kantin
+                      : ElevatedButton(
+                          onPressed: () {
+                            // find parent kantin that contains this menu (safe nullable logic)
+                            Kantin? parent;
+                            for (final k in kantinList) {
+                              if (k.menus.any((mm) => mm.name == m.name)) {
+                                parent = k;
+                                break;
+                              }
+                            }
+                            if (parent == null && kantinList.isNotEmpty) {
+                              parent = kantinList.first;
+                            }
+                            setState(() {
+                              selectedIndex = 1;
+                              if (parent != null) activeKantin = parent;
+                            });
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.grey.shade600,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          child: Text(
+                            'Lihat di Menu',
+                            style: GoogleFonts.poppins(
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ))
                 : Row(
                     children: [
                       IconButton(
@@ -1377,6 +1558,83 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
+    );
+  }
+
+  // reusable section header with improved back UI
+  Widget _sectionHeaderWithBack({
+    required String title,
+    String? subtitle,
+    required VoidCallback onBack,
+  }) {
+    return Row(
+      children: [
+        InkWell(
+          onTap: onBack,
+          borderRadius: BorderRadius.circular(10),
+          child: Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: const [
+                BoxShadow(
+                  color: Colors.black12,
+                  blurRadius: 6,
+                  offset: Offset(0, 4),
+                ),
+              ],
+            ),
+            child: const Icon(Icons.chevron_left, size: 20),
+          ),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: GoogleFonts.poppins(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+              if (subtitle != null) ...[
+                const SizedBox(height: 2),
+                Text(
+                  subtitle,
+                  style: GoogleFonts.poppins(
+                    fontSize: 13,
+                    color: Colors.black54,
+                  ),
+                ),
+              ],
+            ],
+          ),
+        ),
+        // optional small action (e.g., favorite / share) placeholder
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+          decoration: BoxDecoration(
+            color: NesaColors.terracottaLight,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Row(
+            children: [
+              Icon(Icons.place, size: 16, color: NesaColors.terracotta),
+              const SizedBox(width: 6),
+              Text(
+                'Nearby',
+                style: GoogleFonts.poppins(
+                  fontSize: 12,
+                  color: NesaColors.terracotta,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

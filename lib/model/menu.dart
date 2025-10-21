@@ -14,6 +14,14 @@ class Menu {
 
   // Polymorphism: getCategory akan di-override
   String getCategory() => 'Menu';
+
+  // placeholder factory digunakan saat objek Menu tidak tersedia
+  factory Menu.placeholder() => Menu(
+    name: 'Unknown',
+    image: 'assets/placeholder.png',
+    price: 0.0,
+    description: '',
+  );
 }
 
 // --- Subclass Makanan ---
