@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'cubit/login_cubit.dart';
 import 'pages/home_screen.dart';
 import 'signin_screen.dart'; // <-- added import for SignUp / Signin screen
+import 'theme.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -150,7 +151,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     );
                                   },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFF8B2332),
+                              backgroundColor: NesaColors.terracotta,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(16),
                               ),

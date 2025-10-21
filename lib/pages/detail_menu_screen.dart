@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../model/menu.dart';
+import '../theme.dart';
 
 class DetailMenuScreen extends StatelessWidget {
   final Menu menu;
@@ -8,7 +9,7 @@ class DetailMenuScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const terracotta = Color(0xFFD35400);
+    const terracotta = NesaColors.terracotta;
     return Scaffold(
       backgroundColor: const Color(0xFFF7F5F3),
       appBar: AppBar(

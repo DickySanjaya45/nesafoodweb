@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../model/menu.dart';
+import '../theme.dart';
 
 class CartScreen extends StatefulWidget {
   final Map<String, int> counts;
@@ -159,7 +160,7 @@ class _CartScreenState extends State<CartScreen> {
                           );
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFFD35400),
+                          backgroundColor: NesaColors.terracotta,
                         ),
                         child: Text('Checkout', style: GoogleFonts.poppins()),
                       ),

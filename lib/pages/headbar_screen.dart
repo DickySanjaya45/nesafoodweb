@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-// ganti import badges menjadi alias untuk menghindari konflik dengan material.Badge
 import 'package:badges/badges.dart' as badges;
+import '../theme.dart';
 
 class HeadBar extends StatefulWidget implements PreferredSizeWidget {
   final String title;
@@ -61,7 +61,7 @@ class _HeadBarState extends State<HeadBar> {
 
   @override
   Widget build(BuildContext context) {
-    const terracotta = Color(0xFFD35400);
+    // use NesaColors for consistent theming
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -93,18 +93,21 @@ class _HeadBarState extends State<HeadBar> {
                 label: 'Home',
                 selected: widget.selectedIndex == 0,
                 onTap: () => widget.onMenuTap(0),
+                selectedColor: NesaColors.terracotta,
               ),
               const SizedBox(width: 8),
               _MenuButton(
                 label: 'Menu',
                 selected: widget.selectedIndex == 1,
                 onTap: () => widget.onMenuTap(1),
+                selectedColor: NesaColors.terracotta,
               ),
               const SizedBox(width: 8),
               _MenuButton(
                 label: 'About',
                 selected: widget.selectedIndex == 2,
                 onTap: () => widget.onMenuTap(2),
+                selectedColor: NesaColors.terracotta,
               ),
               const SizedBox(width: 18),
               SizedBox(
@@ -174,11 +177,13 @@ class _MenuButton extends StatelessWidget {
   final String label;
   final bool selected;
   final VoidCallback onTap;
+  final Color? selectedColor;
 
   const _MenuButton({
     required this.label,
     required this.selected,
     required this.onTap,
+    this.selectedColor,
   });
 
   @override
@@ -189,7 +194,7 @@ class _MenuButton extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
-          color: selected ? const Color(0xFFD35400) : Colors.transparent,
+          color: selected ? selectedColor : Colors.transparent,
           borderRadius: BorderRadius.circular(8),
         ),
         child: Text(
